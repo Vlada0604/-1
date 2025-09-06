@@ -7,36 +7,35 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="add">
-  <div class="container">
-    <header class="header">
-      <div class="brand">
+  <header class="site-header">
+    <div class="logo-block">
+      <div class="logo"></div>
+      <div class="logo-text">
         <h1>TaskFlow</h1>
-        <small>your task — your flow</small>
+        <h4>your task — your flow</h4>
       </div>
-      <nav class="nav">
-        <a href="index.html">Головна</a>
-        <a href="in-progress.html">В процесі</a>
-        <a href="done.html">Виконані</a>
-        <a href="add.html">Додати завдання</a>
-      </nav>
-    </header>
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html">Головна</a>
+      <a href="in-progress.html">В процесі</a>
+      <a href="done.html">Виконані</a>
+      <a href="add.html">Додати завдання</a>
+    </nav>
+  </header>
 
-    <main class="main">
-      <h2 class="section-title">Нове завдання</h2>
-
-      <form id="task-form" class="form">
-        <label class="label" for="title">Назва</label>
-        <input id="title" class="input" type="text" placeholder="Наприклад: Передзвонити співробітнику" required>
-
-        <label class="label" for="due">Дата (необов’язково)</label>
-        <input id="due" class="date" type="date">
-
-        <button class="button" type="submit">Додати</button>
-      </form>
-
-      <p class="footer">Після створення завдання воно з’явиться у вкладці «В процесі». Якщо вказати дату, воно відобразиться на «Головній» у день дедлайну.</p>
-    </main>
+  <div class="page">
+    <div class="task-group">
+      <div class="task-header">Додати нове завдання</div>
+      <div class="task-box">
+        <form id="task-form">
+          <input type="text" id="title" placeholder="Назва завдання" required style="width:100%;padding:10px 15px;border:2px solid #C0FF42;border-radius:10px;margin-bottom:10px;font-size:16px;">
+          <input type="date" id="due" style="width:100%;padding:10px 15px;border:2px solid #C0FF42;border-radius:10px;margin-bottom:10px;font-size:16px;">
+          <button type="submit" class="task-button" style="padding:10px 20px;background:#6C8F27;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;">Додати</button>
+        </form>
+      </div>
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
