@@ -7,26 +7,30 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="done">
-  <div class="container">
-    <header class="header">
-      <div class="brand">
+  <header class="site-header">
+    <div class="logo-block">
+      <div class="logo"></div>
+      <div class="logo-text">
         <h1>TaskFlow</h1>
-        <small>your task — your flow</small>
+        <h4>your task — your flow</h4>
       </div>
-      <nav class="nav">
-        <a href="index.html">Головна</a>
-        <a href="in-progress.html">В процесі</a>
-        <a href="done.html">Виконані</a>
-        <a href="add.html">Додати завдання</a>
-      </nav>
-    </header>
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html">Головна</a>
+      <a href="in-progress.html">В процесі</a>
+      <a href="done.html">Виконані</a>
+      <a href="add.html">Додати завдання</a>
+    </nav>
+  </header>
 
-    <main class="main">
-      <h2 class="section-title">Виконані завдання</h2>
-      <div id="list" class="list"></div>
-      <p class="footer">Позначені як виконані завдання тут. Можна видаляти кнопкою ×.</p>
-    </main>
+  <div class="page">
+    <div class="task-group">
+      <div class="task-header">Виконані</div>
+      <div class="task-box" id="task-list"></div>
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
+
