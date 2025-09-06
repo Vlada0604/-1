@@ -1,75 +1,199 @@
-:root {
---bg: #ffffff;
---text: #222222;
---muted: #666666;
---primary: #111111;
---card: #f7f7f7;
---border: #e5e5e5;
-}
-
-
-* { box-sizing: border-box; }
-html, body { height: 100%; }
 body {
-margin: 0;
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-background: var(--bg);
-color: var(--text);
+  font-family: 'Inter', sans-serif;
+  background: #ffffff;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-
-.container { max-width: 880px; margin: 0 auto; padding: 24px; }
-
-
-.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.brand {
-display: flex; flex-direction: column; gap: 4px;
-}
-.brand h1 { margin: 0; font-size: 28px; font-weight: 700; }
-.brand small { color: var(--muted); }
-
-
-.nav { display: flex; gap: 12px; flex-wrap: wrap; }
-.nav a {
-text-decoration: none; color: var(--primary);
-padding: 8px 12px; border-radius: 12px;
-}
-.nav a.active, .nav a:hover { background: var(--card); }
-
-
-.main { margin-top: 20px; }
-.section-title { font-size: 18px; color: var(--muted); margin: 0 0 12px; }
-
-
-.list {
-display: grid; gap: 10px;
-}
-.item {
-background: var(--card);
-border: 1px solid var(--border);
-border-radius: 16px;
-padding: 12px 14px;
-display: flex; align-items: center; gap: 12px;
-}
-.item input[type="checkbox"] { width: 18px; height: 18px; }
-.item .title { flex: 1; }
-.item.done .title { text-decoration: line-through; color: var(--muted); }
-.meta { display: flex; gap: 8px; align-items: center; }
-.badge { font-size: 12px; padding: 4px 8px; background: #fff; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); }
-
-
-.empty {
-padding: 20px; border: 1px dashed var(--border); border-radius: 16px; color: var(--muted); background: #fff;
+/* 🔹 Хедер */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #EBFFC2;
+  padding: 10px 40px;
+  flex-wrap: wrap;
 }
 
-
-.form { display: grid; gap: 12px; background: var(--card); padding: 16px; border: 1px solid var(--border); border-radius: 16px; }
-.label { font-weight: 600; }
-.input, .button, .date {
-width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 14px;
+.logo {
+  width: 120px;
+  height: 120px;
+  background-image: url('https://i.postimg.cc/FKHtq7K2/TF-2.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
-.button { background: var(--primary); color: #fff; cursor: pointer; }
-.button:hover { opacity: .9; }
 
+.logo-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-.footer { margin-top: 36px; color: var(--muted); font-size: 13px; }
+.logo-text h1 {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 900;
+}
+
+.logo-text h4 {
+  margin: 0;
+  color: #6C8F27;
+  font-size: 18px;
+  font-family: 'Krona One', sans-serif;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  flex-wrap: wrap;
+}
+
+.nav-menu a {
+  color: black;
+  text-decoration: none;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  color: #6C8F27;
+  text-decoration: underline;
+}
+
+/* 🔹 Контент сторінки */
+.page {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.task-group {
+  position: relative;
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.task-box {
+  border-radius: 20px;
+  border: 3px solid #C0FF42;
+  padding: 20px;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fff;
+}
+
+/* 🔹 Завдання */
+.task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #C0FF42;
+  transition: background 0.2s;
+}
+
+.task:hover {
+  background: #F7FFDA;
+}
+
+.task input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #C0FF42;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.task span {
+  flex: 1;
+}
+
+.task.done span {
+  text-decoration: line-through;
+  color: gray;
+}
+
+/* 🔹 Кнопка видалення */
+.task .delete-task {
+  background: #fff;
+  color: #d00;
+  border: 1px solid #C0FF42;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.task .delete-task:hover {
+  background: #fdd;
+}
+
+/* 🔹 Форма додавання */
+#task-form input[type="text"],
+#task-form input[type="date"] {
+  width: 100%;
+  padding: 10px 15px;
+  border: 2px solid #C0FF42;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+#task-form button {
+  padding: 10px 20px;
+  background: #6C8F27;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#task-form button:hover {
+  opacity: 0.9;
+}
+
+/* 🔹 Адаптивність */
+@media (max-width: 768px) {
+  .site-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .logo-text h1 {
+    font-size: 32px;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    font-size: 18px;
+  }
+
+  .task-box {
+    max-width: 100%;
+  }
+}
