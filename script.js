@@ -1,72 +1,109 @@
 (function() {
-container.innerHTML = `<div class="empty">Немає завдань для відображення.</div>`;
-}
-}
-});
+  const STORAGE_KEY = 'taskflow.tasks';
 
+  function loadTasks() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
 
-container.appendChild(li);
-}
-}
+  function saveTasks(tasks) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  }
 
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
-function escapeHtml(s) {
-return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
-}
+  function todayStr() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${day}`;
+  }
 
+  function addTask(title, dueDate) {
+    const tasks = loadTasks();
+    const t = { id: uid(), title: title.trim(), dueDate: dueDate||null, completed: false, createdAt: Date.now() };
+    tasks.push(t);
+    saveTasks(tasks);
+    return t;
+  }
 
-// ініціалізація за типом сторінки
-document.addEventListener('DOMContentLoaded', () => {
-const page = document.body?.dataset?.page;
+  function toggleTask(id, completed) {
+    const tasks = loadTasks();
+    const i = tasks.findIndex(t=>t.id===id);
+    if(i!==-1){ tasks[i].completed = completed; saveTasks(tasks); }
+  }
 
+  function removeTask(id){
+    const tasks = loadTasks().filter(t=>t.id!==id);
+    saveTasks(tasks);
+  }
 
-// підсвітка активної вкладки
-const path = location.pathname.split('/').pop() || 'index.html';
-document.querySelectorAll('.nav a').forEach(a => {
-const href = a.getAttribute('href');
-if ((path === '' && href.endsWith('index.html')) || href.endsWith(path)) a.classList.add('active');
-if (path === '' && href === './') a.classList.add('active');
-});
+  function renderList(containerSelector, filterFn) {
+    const container = document.querySelector(containerSelector);
+    if(!container) return;
 
+    const tasks = loadTasks()
+      .sort((a,b)=>Number(a.completed)-Number(b.completed)||a.createdAt-b.createdAt)
+      .filter(filterFn||(()=>true));
 
-if (page === 'home') {
-// тільки завдання на сьогодні з dueDate === today
-const today = todayStr();
-renderList('#list', t => !t.completed && t.dueDate === today);
-}
+    container.innerHTML = '';
+    if(!tasks.length){
+      container.innerHTML = `<div class="task">Немає завдань для відображення.</div>`;
+      return;
+    }
 
+    tasks.forEach(t=>{
+      const div = document.createElement('div');
+      div.className = 'task';
+      if(t.completed) div.classList.add('done');
 
-if (page === 'in-progress') {
-// лише невиконані
-renderList('#list', t => !t.completed);
-}
+      div.innerHTML = `<input type="checkbox" ${t.completed?'checked':''} /> <span>${t.title}</span> <button class="delete-task" style="margin-left:auto;background:#fff;color:#d00;border:1px solid #C0FF42;border-radius:6px;">×</button>`;
 
+      const checkbox = div.querySelector('input[type="checkbox"]');
+      checkbox.addEventListener('change', ()=>{
+        toggleTask(t.id, checkbox.checked);
+        location.reload();
+      });
 
-if (page === 'done') {
-renderList('#list', t => t.completed);
-}
+      const delBtn = div.querySelector('.delete-task');
+      delBtn.addEventListener('click', ()=>{
+        if(confirm('Видалити завдання?')){
+          removeTask(t.id);
+          div.remove();
+        }
+      });
 
+      container.appendChild(div);
+    });
+  }
 
-if (page === 'add') {
-const form = document.getElementById('task-form');
-const titleInput = document.getElementById('title');
-const dateInput = document.getElementById('due');
-
-
-form.addEventListener('submit', (e) => {
-e.preventDefault();
-const title = titleInput.value.trim();
-const due = dateInput.value || null; // YYYY-MM-DD або null
-if (!title) {
-alert('Введи назву завдання');
-titleInput.focus();
-return;
-}
-addTask(title, due);
-form.reset();
-// після додавання переходимо у "В процесі"
-location.href = 'in-progress.html';
-});
-}
-});
+  document.addEventListener('DOMContentLoaded',()=>{
+    const page = document.body.dataset.page;
+    if(page==='home'){
+      const today = todayStr();
+      renderList('#task-list', t=>!t.completed && t.dueDate===today);
+    }
+    if(page==='in-progress'){
+      renderList('#task-list', t=>!t.completed);
+    }
+    if(page==='done'){
+      renderList('#task-list', t=>t.completed);
+    }
+    if(page==='add'){
+      const form = document.getElementById('task-form');
+      const titleInput = document.getElementById('title');
+      const dateInput = document.getElementById('due');
+      form.addEventListener('submit', e=>{
+        e.preventDefault();
+        const title = titleInput.value.trim();
+        const due = dateInput.value||null;
+        if(!title){ alert('Введіть назву завдання'); titleInput.focus(); return; }
+        addTask(title,due);
+        form.reset();
+        location.href='in-progress.html';
+      });
+    }
+  });
 })();
+
